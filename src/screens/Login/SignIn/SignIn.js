@@ -18,7 +18,10 @@ const SignIn = () => {
         <Input placeholder="" />
         <Text style={styles.text}>PASSWORD</Text>
         <Input placeholder="" />
-        <Button btnName="Log In" />
+        <Button
+          onPress={() => navigation.navigate("BottomTab")}
+          btnName="Log In"
+        />
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text style={styles.createAccount}>Create Account</Text>
         </TouchableOpacity>
