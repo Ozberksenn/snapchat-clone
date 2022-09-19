@@ -10,4 +10,8 @@ export default StyleSheet.create({
     fontSize: 130,
     color: "#000",
   },
+  snapIcon: {
+    marginTop: 50,
+    fontSize: 38,
+  },
 });
