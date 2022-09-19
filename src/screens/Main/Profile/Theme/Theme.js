@@ -1,11 +1,18 @@
-import { View, Text } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import styles from "./Theme.style";
 
 const Theme = () => {
   return (
-    <View>
-      <Text>Theme</Text>
-    </View>
+    <SafeAreaView style={styles.themeContainer}>
+      <TouchableOpacity>
+        <MaterialCommunityIcons
+          name="ceiling-light"
+          style={styles.Toggleicon}
+        />
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
