@@ -8,7 +8,9 @@ import {
 import React from "react";
 import styles from "./Profile.style";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 const Profile = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.profileContainer}>
       <View style={styles.profilImageContainer}>
@@ -19,11 +21,17 @@ const Profile = () => {
           }}
         />
       </View>
-      <TouchableOpacity style={styles.btnContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Theme")}
+        style={styles.btnContainer}
+      >
         <Text style={styles.btnText}>Theme</Text>
         <MaterialIcons style={styles.icon} name="keyboard-arrow-right" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("EditProfile")}
+        style={styles.btnContainer}
+      >
         <Text style={styles.btnText}>Edit Profile</Text>
         <MaterialIcons style={styles.icon} name="keyboard-arrow-right" />
       </TouchableOpacity>
