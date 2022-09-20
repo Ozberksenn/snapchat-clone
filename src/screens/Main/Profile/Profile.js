@@ -9,8 +9,14 @@ import React from "react";
 import styles from "./Profile.style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../../../redux/userSlice";
 const Profile = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    dispatch(logOut({}));
+  };
   return (
     <SafeAreaView style={styles.profileContainer}>
       <View style={styles.profilImageContainer}>
@@ -35,7 +41,7 @@ const Profile = () => {
         <Text style={styles.btnText}>Edit Profile</Text>
         <MaterialIcons style={styles.icon} name="keyboard-arrow-right" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnContainer}>
+      <TouchableOpacity onPress={handleLogOut} style={styles.btnContainer}>
         <Text style={styles.btnText}>Log Out</Text>
         <MaterialIcons style={styles.icon} name="keyboard-arrow-right" />
       </TouchableOpacity>

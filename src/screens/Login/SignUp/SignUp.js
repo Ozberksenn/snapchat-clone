@@ -6,7 +6,8 @@ import Button from "../../../components/Button/Button";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../../config";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../../../config";
 const SignUp = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState();
@@ -16,7 +17,14 @@ const SignUp = () => {
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then()
+      .then(async (response) => {
+        await setDoc(doc(db, "users", response.user.uid), {
+          email: email,
+          userName: userName,
+          password: password,
+          uid: response.user.uid,
+        });
+      })
       .catch((error) => console.log(error));
   };
 
@@ -30,11 +38,14 @@ const SignUp = () => {
         <Text style={styles.text}>EMAIL</Text>
         <Input onChangeText={(value) => setEmail(value)} placeholder="" />
         <Text style={styles.text}>USER NAME</Text>
-        <Input placeholder="" />
+        <Input onChangeText={(value) => setUserName(value)} placeholder="" />
         <Text style={styles.text}>PASSWORD</Text>
         <Input onChangeText={(value) => setPassword(value)} placeholder="" />
         <Text style={styles.text}>PASSWORD AGAIN</Text>
-        <Input placeholder="" />
+        <Input
+          onChangeText={(value) => setPasswordAgain(value)}
+          placeholder=""
+        />
         <Button onPress={handleSignUp} btnName="Sign Up" />
         <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
           <Text style={styles.sigIn}>Sign In</Text>
