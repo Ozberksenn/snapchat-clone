@@ -8,11 +8,16 @@ export default StyleSheet.create({
   profilImageContainer: {
     alignItems: "center",
   },
+  userName: {
+    marginTop: 10,
+    fontSize: 16,
+  },
   profilImage: {
+    borderWidth: 1,
     width: 150,
     height: 150,
     borderRadius: 100,
-    resizeMode: "stretch",
+    resizeMode: "contain",
     marginTop: 30,
   },
   btnContainer: {

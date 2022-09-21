@@ -14,6 +14,9 @@ export const userSlice = createSlice({
       state.userInfo = action.payload;
       console.log("ben setUser ", action.payload);
     },
+    updateUser: (state, action) => {
+      state.userInfo = action.payload;
+    },
     logOut: (state, action) => {
       AsyncStorage.removeItem("userKey");
       state.userInfo = action.payload;
@@ -22,6 +25,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUser, setUser, logOut } = userSlice.actions;
+export const { addUser, setUser, updateUser, logOut } = userSlice.actions;
 
 export default userSlice.reducer;

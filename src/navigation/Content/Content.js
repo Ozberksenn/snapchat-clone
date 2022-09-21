@@ -15,9 +15,10 @@ const Content = () => {
   const [localData, setLocalData] = useState();
 
   const getLocal = async () => {
+    // information written to localData
     const response = await AsyncStorage.getItem("userKey");
     const local = response ? JSON.parse(response) : null;
-    console.log("merhaba ben localData", local);
+    console.log("hi i am localData : ", local);
     setLocalData(local);
   };
   useEffect(() => {
