@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../../../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../config";
 import uploadImageAsync from "../../../hooks/uploadImageAsync";
@@ -29,7 +28,8 @@ const Profile = () => {
   };
   useEffect(() => {
     getLocal();
-  }, []);
+  }, [getLocal]);
+
   const getLocal = async () => {
     const response = await AsyncStorage.getItem("userKey");
     const local = response ? JSON.parse(response) : null;
