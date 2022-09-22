@@ -17,10 +17,11 @@ import { auth } from "../../../../../config";
 import { updateEmail, updatePassword } from "firebase/auth";
 import { db } from "../../../../../config";
 import { doc, updateDoc } from "firebase/firestore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../../redux/userSlice";
 const EditProfile = () => {
   const dispatch = useDispatch();
+  const { activeTheme } = useSelector((state) => state.theme);
   const [profilImage, setProfilImage] = useState();
   const [email, setEmail] = useState();
   const [userName, setUserName] = useState();
@@ -78,17 +79,21 @@ const EditProfile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.editContainer}>
+    <SafeAreaView
+      style={[styles.editContainer, { backgroundColor: activeTheme.bgColor }]}
+    >
       <View style={{ alignItems: "center" }}>
-        <Text style={styles.title}>You Can Update Profil Info</Text>
+        <Text style={[styles.title, { color: activeTheme.color }]}>
+          You Can Update Profil Info
+        </Text>
         <TouchableOpacity onPress={handleImage} style={styles.updateImage}>
           {profilImage ? (
-            <Image
-              style={{ width: 80, height: 80, borderRadius: 50 }}
-              source={{ uri: profilImage }}
-            />
+            <Image style={styles.photo} source={{ uri: profilImage }} />
           ) : (
-            <MaterialIcons name="camera-enhance" size={24} color="black" />
+            <MaterialIcons
+              style={[styles.photoIcon, { color: activeTheme.color }]}
+              name="camera-enhance"
+            />
           )}
         </TouchableOpacity>
       </View>

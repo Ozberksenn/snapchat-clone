@@ -1,6 +1,7 @@
 export default {
   type: "dark",
-  bgColor: "#000",
+  bgColor: "#2C3333",
   lamb: "yellow",
   snapIcon: "yellow",
+  color: "#fff",
 };

@@ -16,7 +16,11 @@ const BottomTab = () => {
         component={Home}
       />
       <Tab.Screen options={{ headerShown: false }} name="Map" component={Map} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        options={{ headerShown: false }}
+        name="Profile"
+        component={Profile}
+      />
     </Tab.Navigator>
   );
 };

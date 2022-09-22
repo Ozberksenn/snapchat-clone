@@ -27,4 +27,13 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  photo: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+  },
+  photoIcon: {
+    fontSize: 26,
+    color: "black",
+  },
 });

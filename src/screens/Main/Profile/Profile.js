@@ -18,8 +18,8 @@ import { db } from "../../../../config";
 import uploadImageAsync from "../../../hooks/uploadImageAsync";
 
 const Profile = () => {
+  const { activeTheme } = useSelector((state) => state.theme);
   const navigation = useNavigation();
-  const { userInfo } = useSelector((state) => state.user);
   const [localData, setLocalData] = useState();
   const [profilImage, setProfilImage] = useState(); // profil picture state.
   const dispatch = useDispatch();
@@ -59,7 +59,12 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.profileContainer}>
+    <SafeAreaView
+      style={[
+        styles.profileContainer,
+        { backgroundColor: activeTheme.bgColor },
+      ]}
+    >
       <View style={styles.profilImageContainer}>
         <TouchableOpacity onPress={pickImage}>
           <Image
@@ -69,7 +74,9 @@ const Profile = () => {
             }}
           />
         </TouchableOpacity>
-        <Text style={styles.userName}>{localData?.userName}</Text>
+        <Text style={[styles.userName, { color: activeTheme.color }]}>
+          {localData?.userName}
+        </Text>
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate("Theme")}
