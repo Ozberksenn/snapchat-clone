@@ -1,25 +1,21 @@
 import { View, SafeAreaView, Text, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import styles from "./HomeDetail.style";
 import Button from "../../../../components/Button/Button";
+import { useSelector } from "react-redux";
 import { db } from "../../../../../config";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import uploadImageAsync from "../../../../hooks/uploadImageAsync";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 const HomeDetail = () => {
+  const navigation = useNavigation();
   const { userInfo } = useSelector((state) => state.user);
-  const [newImage, setNewImage] = useState("");
   const [localData, setLocalData] = useState();
 
   useEffect(() => {
-    base();
     getLocal();
-  }, [base]);
-  const base = async () => {
-    const baseImage = await uploadImageAsync(userInfo.image);
-    setNewImage(baseImage);
-  };
+  }, []);
 
   const getLocal = async () => {
     const response = await AsyncStorage.getItem("userKey");
@@ -28,13 +24,33 @@ const HomeDetail = () => {
   };
 
   const handleShare = async () => {
-    const postAdded = doc(db, "users", localData?.uid);
-    await updateDoc(postAdded, {
-      posts: [newImage],
-    });
-  };
+    const baseImage = await uploadImageAsync(userInfo.image);
+    const userResponse = await doc(db, "users", localData?.uid);
+    let postsResponse = await getDoc(userResponse);
+    postsResponse = await postsResponse.data().posts;
 
-  console.log("i am newImage : ", newImage);
+    if (baseImage) {
+      const postAdded = doc(db, "users", localData?.uid);
+      if (postsResponse) {
+        await updateDoc(postAdded, {
+          posts: [
+            ...postsResponse,
+            {
+              postUrl: baseImage,
+            },
+          ],
+        }).then(() => navigation.navigate("BottomTab"));
+      } else if (!postsResponse) {
+        await updateDoc(postAdded, {
+          posts: [
+            {
+              postUrl: baseImage,
+            },
+          ],
+        });
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.homeDetailContainer}>
