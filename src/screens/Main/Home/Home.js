@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../../redux/userSlice";
 import { Camera, CameraType } from "expo-camera";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -61,20 +62,17 @@ const Home = () => {
   }
 
   return (
-    <ImageBackground
-      source={require("../../../assets/backgr.jpg")}
-      style={styles.homeContainer}
-    >
+    <SafeAreaView style={styles.homeContainer}>
       <Text style={{ fontSize: 28, marginBottom: 50 }}>Share Photo</Text>
       <TouchableOpacity onPress={pickImage} style={styles.card}>
-        <MaterialIcons name="photo-library" size={50} color="black" />
-        <Text>Select From Library</Text>
+        <MaterialIcons name="photo-library" size={80} color="black" />
+        <Text>Pick a Image For Upload</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleCamera} style={styles.card}>
-        <MaterialIcons name="camera-alt" size={50} color="black" />
-        <Text>Open Camera</Text>
+        <MaterialIcons name="camera-alt" size={80} color="black" />
+        <Text>Take a Picture With Your Camera</Text>
       </TouchableOpacity>
-    </ImageBackground>
+    </SafeAreaView>
   );
 };
 
