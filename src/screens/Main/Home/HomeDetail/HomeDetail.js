@@ -8,8 +8,10 @@ import { doc, updateDoc, getDoc } from "firebase/firestore";
 import uploadImageAsync from "../../../../hooks/uploadImageAsync";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { useToast } from "react-native-toast-notifications";
 const HomeDetail = () => {
   const navigation = useNavigation();
+  const toast = useToast();
   const { userInfo } = useSelector((state) => state.user);
   const [localData, setLocalData] = useState();
 
@@ -39,7 +41,10 @@ const HomeDetail = () => {
               postUrl: baseImage,
             },
           ],
-        }).then(() => navigation.navigate("BottomTab"));
+        }).then(
+          () =>
+            navigation.navigate("BottomTab") & toast.show("Has Been Shared...")
+        );
       } else if (!postsResponse) {
         await updateDoc(postAdded, {
           posts: [
@@ -56,7 +61,9 @@ const HomeDetail = () => {
     <SafeAreaView style={styles.homeDetailContainer}>
       <View>
         <Text style={styles.title}>You Can Share This Photo Right Now</Text>
-        <Image style={styles.image} source={{ uri: userInfo.image }} />
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{ uri: userInfo.image }} />
+        </View>
         <Button onPress={handleShare} btnName="SHARE" />
       </View>
     </SafeAreaView>
