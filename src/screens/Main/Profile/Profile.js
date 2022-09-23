@@ -28,7 +28,7 @@ const Profile = () => {
   };
   useEffect(() => {
     getLocal();
-  }, [getLocal]);
+  }, []);
 
   const getLocal = async () => {
     const response = await AsyncStorage.getItem("userKey");
@@ -56,6 +56,7 @@ const Profile = () => {
     await updateDoc(profilUpdate, {
       profilUri: photoURL,
     });
+    AsyncStorage.setItem("userKey", JSON.stringify(photoURL));
   };
 
   return (

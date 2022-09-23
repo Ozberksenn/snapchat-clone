@@ -52,7 +52,10 @@ const HomeDetail = () => {
               postUrl: baseImage,
             },
           ],
-        });
+        }).then(
+          () =>
+            navigation.navigate("BottomTab") & toast.show("Has Been Shared...")
+        );
       }
     }
   };

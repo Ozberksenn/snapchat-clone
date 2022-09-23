@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import React, { Children, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styles from "./SignIn.style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Input from "../../../components/Input/Input";

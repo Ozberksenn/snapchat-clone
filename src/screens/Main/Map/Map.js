@@ -6,32 +6,33 @@ import {
   Pressable,
   Image,
   Modal,
-  TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import styles from "./Map.style";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../../../config";
+
 export default function Map() {
   // haritamızın bulunduğu sayfa.
-  const [location, setLocation] = useState(null);
-  const [localData, setLocalData] = useState();
+  const [data, setData] = useState(null);
+  const [myLocation, setMyLocation] = useState(null);
+  const [localData, setLocalData] = useState(null);
+  const [modalData, setModalData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const getLocal = async () => {
-    // markera image verebilmek için localDatadan görseli çekiyoruz.
+  const getLocations = async () => {
     const response = await AsyncStorage.getItem("userKey");
     const local = response ? JSON.parse(response) : null;
     setLocalData(local);
-  };
-
-  useEffect(() => {
-    currentLocation();
-    getLocal();
-  }, []);
-
-  const currentLocation = async () => {
     // Uygulama ilk render edildiğinde haritayı kullanabilmek için izin isteriz.
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -39,8 +40,40 @@ export default function Map() {
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+    console.log("location:", location);
+    setMyLocation({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
+
+    if (location) {
+      const addLocal = doc(db, "users", local?.uid);
+      console.log("firebaseye yazıyorum.", addLocal);
+      await updateDoc(addLocal, {
+        currentLocation: {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        },
+      }).then(async () => {
+        const users = collection(db, "users");
+        await getDocs(users)
+          .then((e) => {
+            console.log(e.docs.map((item) => item.data()));
+            setData(e.docs.map((item) => item.data()));
+          })
+          .catch((error) => console.log("error", error));
+      });
+      // const getDoc = doc(db, "users", localData?.uid);
+      // const check = await getDoc(getDoc);
+      // console.log("ben asdasdasdsd", check.data().currentLocation);
+      // setLocation(location);
+    }
+    // setGetLocation(check.data().currentLocationn);
   };
+
+  useEffect(() => {
+    getLocations();
+  }, []);
 
   return (
     <View>
@@ -59,7 +92,7 @@ export default function Map() {
             <View style={styles.modal}>
               <Image
                 style={styles.modalImage}
-                source={{ uri: localData?.profilUri }}
+                source={{ uri: modalData?.profilUri }}
               />
               <View style={styles.modalTextContainer}>
                 <Text style={styles.modalText}>Close</Text>
@@ -69,23 +102,32 @@ export default function Map() {
         </SafeAreaView>
       </Modal>
       <MapView style={styles.map} maxZoomLevel={20}>
-        {location ? (
-          <Pressable onPress={() => setModalVisible(true)}>
-            <Marker
-              coordinate={{
-                latitude: location.coords.latitude, // coords = bulunduğumuz kordinatları alır.
-                longitude: location.coords.longitude,
-              }}
-            >
-              <Image
-                style={{ width: 40, height: 40, borderRadius: 50 }}
-                source={{
-                  uri: localData.profilUri,
+        {data &&
+          data.map((item, index) => {
+            return (
+              <Pressable
+                key={index}
+                onPress={() => {
+                  setModalVisible(true);
+                  setModalData(item);
                 }}
-              />
-            </Marker>
-          </Pressable>
-        ) : null}
+              >
+                <Marker
+                  coordinate={{
+                    latitude: item?.currentLocation?.latitude,
+                    longitude: item?.currentLocation?.longitude,
+                  }}
+                >
+                  <Image
+                    style={{ width: 40, height: 40, borderRadius: 50 }}
+                    source={{
+                      uri: item?.profilUri,
+                    }}
+                  />
+                </Marker>
+              </Pressable>
+            );
+          })}
       </MapView>
     </View>
   );

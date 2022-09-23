@@ -6,6 +6,7 @@ const Input = ({
   onChangeText,
   secureTextEntry,
   defaultValue,
+  value,
 }) => {
   return (
     <View style={styles.InputContainer}>
@@ -15,6 +16,7 @@ const Input = ({
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         defaultValue={defaultValue}
+        value={value}
       />
     </View>
   );

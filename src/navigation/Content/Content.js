@@ -6,7 +6,7 @@ import Theme from "../../screens/Main/Profile/Theme/Theme";
 import EditProfile from "../../screens/Main/Profile/EditProfile/EditProfile";
 import HomeDetail from "../../screens/Main/Home/HomeDetail/HomeDetail";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +21,7 @@ const Content = () => {
     console.log("hi i am localData : ", local);
     setLocalData(local);
   };
+
   useEffect(() => {
     getLocal();
   }, [userInfo]);

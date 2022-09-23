@@ -1,4 +1,10 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import styles from "../SignUp/SignUp.style";
 import Input from "../../../components/Input/Input";
@@ -8,8 +14,10 @@ import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../../../config";
+import { useToast } from "react-native-toast-notifications";
 const SignUp = () => {
   const navigation = useNavigation();
+  const toast = useToast();
   const [email, setEmail] = useState();
   const [userName, setUserName] = useState();
   const [password, setPassword] = useState();
@@ -24,6 +32,12 @@ const SignUp = () => {
           password: password,
           uid: response.user.uid,
         });
+        navigation.navigate("SignIn");
+        setEmail("");
+        setUserName("");
+        setPassword("");
+        setPassword("");
+        toast.show("congratulations user created :)");
       })
       .catch((error) => console.log(error));
   };
@@ -36,13 +50,26 @@ const SignUp = () => {
       <View style={styles.content}>
         <Text style={styles.title}>Create Account</Text>
         <Text style={styles.text}>EMAIL</Text>
-        <Input onChangeText={(value) => setEmail(value)} placeholder="" />
+        <Input
+          value={email}
+          onChangeText={(value) => setEmail(value)}
+          placeholder=""
+        />
         <Text style={styles.text}>USER NAME</Text>
-        <Input onChangeText={(value) => setUserName(value)} placeholder="" />
+        <Input
+          value={userName}
+          onChangeText={(value) => setUserName(value)}
+          placeholder=""
+        />
         <Text style={styles.text}>PASSWORD</Text>
-        <Input onChangeText={(value) => setPassword(value)} placeholder="" />
+        <Input
+          value={password}
+          onChangeText={(value) => setPassword(value)}
+          placeholder=""
+        />
         <Text style={styles.text}>PASSWORD AGAIN</Text>
         <Input
+          value={passwordAgain}
           onChangeText={(value) => setPasswordAgain(value)}
           placeholder=""
         />
