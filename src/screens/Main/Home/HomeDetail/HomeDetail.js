@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useToast } from "react-native-toast-notifications";
 const HomeDetail = () => {
+  // we upload the post to firebase
   const navigation = useNavigation();
   const toast = useToast();
   const { userInfo } = useSelector((state) => state.user);

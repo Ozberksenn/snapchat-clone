@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./Home.style";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../../../redux/userSlice";
 import { Camera, CameraType } from "expo-camera";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -48,7 +42,7 @@ const Home = () => {
   }, [pickImage]);
 
   useEffect(() => {
-    // kamera izinleri için tetikleriz. Expodadan kameraya erişim izni verilmeli!
+    // we trigger for camera permissions. Access to the camera must be granted from the Expo!
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");

@@ -28,7 +28,7 @@ const EditProfile = () => {
   const [password, setPassword] = useState();
   const [localData, setLocalData] = useState();
 
-  // lcoal datadan tekrardan bilgileri çekiyoruz. input defaulValue değerine vermek için.
+  // We are pulling the information again from the lcoal data. To give the input defaulValue.
   useEffect(() => {
     getLocal();
   }, []);

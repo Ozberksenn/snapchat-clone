@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import styles from "../SignUp/SignUp.style";
 import Input from "../../../components/Input/Input";

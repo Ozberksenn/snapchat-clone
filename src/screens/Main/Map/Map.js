@@ -12,17 +12,11 @@ import MapView, { Marker } from "react-native-maps";
 import styles from "./Map.style";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../../../config";
 
 export default function Map() {
-  // haritamızın bulunduğu sayfa.
+  // Map page
   const [data, setData] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
   const [localData, setLocalData] = useState(null);
@@ -33,14 +27,13 @@ export default function Map() {
     const response = await AsyncStorage.getItem("userKey");
     const local = response ? JSON.parse(response) : null;
     setLocalData(local);
-    // Uygulama ilk render edildiğinde haritayı kullanabilmek için izin isteriz.
+    // When the app is first rendered, we ask for permission to use the map.
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       Alert.alert("", "Permission to access location was denied");
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
-    console.log("location:", location);
     setMyLocation({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -48,7 +41,6 @@ export default function Map() {
 
     if (location) {
       const addLocal = doc(db, "users", local?.uid);
-      console.log("firebaseye yazıyorum.", addLocal);
       await updateDoc(addLocal, {
         currentLocation: {
           latitude: location.coords.latitude,
@@ -63,12 +55,7 @@ export default function Map() {
           })
           .catch((error) => console.log("error", error));
       });
-      // const getDoc = doc(db, "users", localData?.uid);
-      // const check = await getDoc(getDoc);
-      // console.log("ben asdasdasdsd", check.data().currentLocation);
-      // setLocation(location);
     }
-    // setGetLocation(check.data().currentLocationn);
   };
 
   useEffect(() => {
