@@ -18,6 +18,8 @@ With the async storage package, the information was kept in the phone's memory</
 
 ![snap_two](https://user-images.githubusercontent.com/96706849/192071651-28bb462a-a2c2-44eb-a002-54711c65089d.png)
 
+![snp_three](https://user-images.githubusercontent.com/96706849/192087137-586455d4-38e0-4260-99f9-378cd2443d89.png)
+
 
 <h3>Entry to the application is made here. With Firebase, the application can be logged if the user is registered.</h3>
 
