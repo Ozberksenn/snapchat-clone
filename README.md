@@ -10,6 +10,8 @@ assignment-6-Ozberksenn created by GitHub Classroom
   <li>Map imported with react native map package</li>
   <li>Accessed photos from camera and gallery with image picker</li>
   <li>Redux used for public state</li>
+  <li>
+With the async storage package, the information was kept in the phone's memory</li>
 </ul>
 
 ![snap_one](https://user-images.githubusercontent.com/96706849/192071650-3821f1c7-e6b7-4c8e-90a7-26476dc16f4c.png)
